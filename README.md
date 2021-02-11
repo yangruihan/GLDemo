@@ -1,50 +1,18 @@
-# OpenGL Playground
+# GL Demo
 
-## Build
+使用 c99 编写，OpenGL 4.0 +
 
-- Debug
+## 项目模板
 
-    ```sh
-    ./tools/build_debug.sh
-    ```
+https://github.com/yangruihan/OpenGLPlayground
 
-- Release
-
-    ```sh
-    ./tools/build_release.sh
-    ```
-
-Need CMake 3.1 or greater
-
-Binary file will generate to *./bin* directory
-
-## Directory Info
-
-### libs
-
-Dependent library directory
+## 第三方库
 
 - cglm: https://github.com/recp/cglm
 - glad: https://github.com/Dav1dde/glad
 - glfw: https://github.com/glfw/glfw
 - rlib: https://github.com/yangruihan/rlib
 
-### projects
+## 参考书籍
 
-Where to put your source code
-
-### tools
-
-Some scripts to help building
-
-### bin
-
-*Auto generate directory*
-
-Where to put the generated binary file
-
-### build
-
-*Auto generate directory*
-
-Where to put the generated build file
+- 《[计算机图形学编程 使用OpenGL和C++](https://book.douban.com/subject/34987432/)》，微信读书可看
