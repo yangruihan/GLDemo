@@ -1,0 +1,41 @@
+project(glad VERSION 0.1.34 LANGUAGES C)
+
+aux_source_directory(./src GLAD_SRC)
+
+file(GLOB GRAD_HEADERS "${PROJECT_SOURCE_DIR}/include/*.h")
+
+source_group("include" FILES ${GRAD_HEADERS})
+
+if(WIN32 AND MSVC)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG /MTd")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /MT")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG /MTd")
+elseif(APPLE)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG")
+else()
+    if(DEBUG)
+        add_definitions(-DDEBUG)
+    endif(DEBUG)
+endif()
+
+if (WIN32)
+    set(EXECUTABLE_OUTPUT_PATH "${PROJ_SOURCE_ROOT}/bin/${PROJ_NAME}")
+else (WIN32)
+    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${PROJ_SOURCE_ROOT}/bin/Debug")
+    else (CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(EXECUTABLE_OUTPUT_PATH "${PROJ_SOURCE_ROOT}/bin/Release")
+    endif (CMAKE_BUILD_TYPE MATCHES "Debug")
+endif (WIN32)
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+add_library(
+    glad
+    ${GLAD_SRC}
+    ${GRAD_HEADERS}
+)
