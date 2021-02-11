@@ -1,6 +1,6 @@
 # GL Demo
 
-使用 c99 编写，OpenGL 4.0 +
+使用 c99 编写，OpenGL 4.0 +
 
 ## 项目模板
 
