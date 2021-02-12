@@ -2,6 +2,11 @@
 
 使用 c99 编写，OpenGL 4.0 +
 
+## 目录
+
+- [第一个立方体](./projects/first3dcube)
+- [旋转彩色立方体](./projects/first3dcube2)
+
 ## 项目模板
 
 https://github.com/yangruihan/OpenGLPlayground
