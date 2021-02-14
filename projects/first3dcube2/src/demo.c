@@ -52,7 +52,7 @@ void setupVertices()
     CHECK_OPENGL_ERROR();
 }
 
-void Init(GLFWwindow *window)
+void init(GLFWwindow *window)
 {
     RLOG_DEBUG("Start Init");
     
@@ -86,7 +86,7 @@ void Init(GLFWwindow *window)
     RLOG_DEBUG("End Init");
 }
 
-void Display(GLFWwindow *window, double time)
+void display(GLFWwindow *window, double time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);

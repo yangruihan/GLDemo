@@ -7,8 +7,8 @@
 
 #include "fcommon.h"
 
-extern void Init(GLFWwindow *window);
+extern void init(GLFWwindow *window);
 
-extern void Display(GLFWwindow *window, double time);
+extern void display(GLFWwindow *window, double time);
 
 #endif

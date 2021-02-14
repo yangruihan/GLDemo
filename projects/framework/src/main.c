@@ -33,11 +33,11 @@ int main()
 
     glfwSwapInterval(1);
 
-    Init(window);
+    init(window);
 
     while (!glfwWindowShouldClose(window))
     {
-        Display(window, glfwGetTime());
+        display(window, glfwGetTime());
 
         glfwSwapBuffers(window);
         glfwPollEvents();
