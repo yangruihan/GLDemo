@@ -1,2 +1,3 @@
 add_subdirectory(first3dcube)
 add_subdirectory(first3dcube2)
+add_subdirectory(first3dcube3)
