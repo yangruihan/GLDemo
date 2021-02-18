@@ -6,6 +6,8 @@
 
 - [第一个立方体](./projects/first3dcube)
 - [旋转彩色立方体](./projects/first3dcube2)
+- [多个立方体](./projects/first3dcube3)
+- [多个立方体（实例化）](./projects/first3dcube4)
 
 ## 项目模板
 

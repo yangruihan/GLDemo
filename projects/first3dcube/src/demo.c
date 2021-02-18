@@ -72,6 +72,9 @@ void init(GLFWwindow *window)
         return;
     }
 
+    FREE(char, vpath);
+    FREE(char, fpath);
+
     CHECK_OPENGL_ERROR();
 
     RLOG_INFO("Program Id: %d", renderingProgram);
