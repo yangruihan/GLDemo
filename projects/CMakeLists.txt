@@ -1,4 +1,4 @@
-add_subdirectory(first3dcube)
-add_subdirectory(first3dcube2)
-add_subdirectory(first3dcube3)
-add_subdirectory(first3dcube4)
+add_subdirectory(p45_1)
+add_subdirectory(p45_2)
+add_subdirectory(p46_1)
+add_subdirectory(p46_2)

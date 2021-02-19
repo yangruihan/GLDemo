@@ -1,4 +1,4 @@
-set(PROJ_NAME first3dcube)
+set(PROJ_NAME p45_2)
 
 project(${PROJ_NAME})
 
