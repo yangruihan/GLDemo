@@ -23,6 +23,7 @@ https://github.com/yangruihan/OpenGLPlayground
 - glad: https://github.com/Dav1dde/glad
 - glfw: https://github.com/glfw/glfw
 - rlib: https://github.com/yangruihan/rlib
+- SOIL2: https://github.com/SpartanJ/SOIL2
 
 ## 参考书籍
 
