@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(PROJ_NAME GLPlayground)
+set(PROJ_NAME GLDemo)
 
 project(${PROJ_NAME} VERSION 0.1 LANGUAGES C CXX)
 

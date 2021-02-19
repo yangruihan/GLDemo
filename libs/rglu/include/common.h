@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include <glad/glad.h>
+#include <cglm/cglm.h>
 #include <rlib.h>
 
 #ifndef bool

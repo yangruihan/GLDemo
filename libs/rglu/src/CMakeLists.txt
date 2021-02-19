@@ -13,4 +13,5 @@ target_link_libraries(
     rglu
     glad
     rlib
+    cglm
 )
