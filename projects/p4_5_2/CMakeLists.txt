@@ -1,4 +1,4 @@
-set(PROJ_NAME p46_2)
+set(PROJ_NAME p4_5_2)
 
 project(${PROJ_NAME})
 
