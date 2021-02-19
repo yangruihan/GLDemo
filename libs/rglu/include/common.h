@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <cglm/cglm.h>
 #include <rlib.h>
+#include <SOIL2/SOIL2.h>
 
 #ifndef bool
     #define bool int
