@@ -4,10 +4,11 @@
 
 ## 目录
 
-- [第一个立方体](./projects/first3dcube)
-- [旋转彩色立方体](./projects/first3dcube2)
-- [多个立方体](./projects/first3dcube3)
-- [多个立方体（实例化）](./projects/first3dcube4)
+- [第一个立方体](./projects/p45_1)
+- [旋转彩色立方体](./projects/p45_2)
+- [在同一个场景中渲染多个不同模型](./projects/p46_1)
+- [在同一个场景中渲染多个不同模型（实例化）](./projects/p46_2)
+- [在同一个场景中渲染多个不同模型](./projects/p47_1)
 
 ## 项目模板
 
