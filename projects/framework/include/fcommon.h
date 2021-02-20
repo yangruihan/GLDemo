@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <math.h>
 
 #include <rlib.h>
 #include <rglu.h>
