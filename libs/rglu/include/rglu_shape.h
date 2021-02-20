@@ -7,6 +7,7 @@ extern "C"
 #endif
 
 #include "./shape/rglu_sphere.h"
+#include "./shape/rglu_torus.h"
 
 #ifdef __cplusplus
 }

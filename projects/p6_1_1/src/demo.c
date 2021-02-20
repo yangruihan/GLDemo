@@ -40,18 +40,18 @@ void setupVertices()
     
     for (int i = 0; i < numIndices; i++)
     {
-        array_get(&sphere.indices, i, &idx);
+        array_get(&sphere.base.indices, i, &idx);
 
-        array_get(&sphere.vertices, idx, &v3);
+        array_get(&sphere.base.vertices, idx, &v3);
         pvalues[i * 3 + 0] = v3[0];
         pvalues[i * 3 + 1] = v3[1];
         pvalues[i * 3 + 2] = v3[2];
 
-        array_get(&sphere.texCoords, idx, &v2);
+        array_get(&sphere.base.texCoords, idx, &v2);
         tvalues[i * 2 + 0] = v2[0];
         tvalues[i * 2 + 1] = v2[1];
 
-        array_get(&sphere.normals, idx, &v3);
+        array_get(&sphere.base.normals, idx, &v3);
         nvalues[i * 3 + 0] = v3[0];
         nvalues[i * 3 + 1] = v3[1];
         nvalues[i * 3 + 2] = v3[2];
