@@ -26,6 +26,7 @@ https://github.com/yangruihan/OpenGLPlayground
 - glfw: https://github.com/glfw/glfw
 - rlib: https://github.com/yangruihan/rlib
 - SOIL2: https://github.com/SpartanJ/SOIL2
+- assimp: https://github.com/assimp/assimp
 
 ## 参考书籍
 
