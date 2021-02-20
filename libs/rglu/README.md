@@ -8,3 +8,4 @@ Ray OpenGL Utils Lib
 - [rlib](https://github.com/yangruihan/rlib)
 - [cglm](https://github.com/recp/cglm)
 - [SOIL2](https://github.com/SpartanJ/SOIL2)
+- [assimp](https://github.com/assimp/assimp)

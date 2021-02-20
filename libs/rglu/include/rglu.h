@@ -11,6 +11,7 @@ extern "C"
 #include "./rglu_matstack.h"
 #include "./rglu_texture.h"
 #include "./rglu_math.h"
+#include "./rglu_model.h"
 
 #ifdef __cplusplus
 }

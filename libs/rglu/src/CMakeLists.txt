@@ -19,4 +19,5 @@ target_link_libraries(
     rlib
     cglm
     SOIL2
+    assimp
 )
