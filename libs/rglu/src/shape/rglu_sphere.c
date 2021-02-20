@@ -1,4 +1,6 @@
-#include "sphere.h"
+#include "shape/rglu_sphere.h"
+
+#include "rglu_math.h"
 
 static void init(Sphere* s, int prec)
 {

@@ -3,6 +3,11 @@
 
 #include "./rglu_common.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef struct MatStack
 {
     Stack stack;
@@ -15,5 +20,9 @@ void matstack_pushTop(MatStack* s);
 bool matstack_pop(MatStack* s, /* out */ mat4 ret);
 bool matstack_top(MatStack* s, /* out */ mat4 ret);
 void matstack_mul(MatStack* s, /* out */ mat4 m);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // __RGLU_MATSTACK_H__

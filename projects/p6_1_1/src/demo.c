@@ -5,7 +5,6 @@
 
 #include "fconfig.h"
 #include "framework.h"
-#include "sphere.h"
 
 #define numVAOs 1
 #define numVBOs 3
