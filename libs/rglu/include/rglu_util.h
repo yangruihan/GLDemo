@@ -1,7 +1,7 @@
 #ifndef __RGLU_UTIL_H__
 #define __RGLU_UTIL_H__
 
-#include "./common.h"
+#include "./rglu_common.h"
 
 bool printShaderLog(GLuint shader);
 bool printProgramLog(int program);

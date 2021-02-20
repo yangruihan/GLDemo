@@ -1,4 +1,4 @@
-#include "shader.h"
+#include "rglu_shader.h"
 
 static char *readShaderSource(const char *filePath)
 {

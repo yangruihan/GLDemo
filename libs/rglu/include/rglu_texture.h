@@ -1,7 +1,7 @@
 #ifndef __RGLU_TEXTURE_H__
 #define __RGLU_TEXTURE_H__
 
-#include "./common.h"
+#include "./rglu_common.h"
 
 GLuint loadTexture(const char* texImagePath);
 

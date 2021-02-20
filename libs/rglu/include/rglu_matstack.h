@@ -1,7 +1,7 @@
 #ifndef __RGLU_MATSTACK_H__
 #define __RGLU_MATSTACK_H__
 
-#include "./common.h"
+#include "./rglu_common.h"
 
 typedef struct MatStack
 {

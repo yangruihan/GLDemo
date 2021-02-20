@@ -1,4 +1,4 @@
-#include "matstack.h"
+#include "rglu_matstack.h"
 
 void matstack_init(MatStack* s)
 {

@@ -1,4 +1,4 @@
-#include "util.h"
+#include "rglu_util.h"
 
 bool printShaderLog(GLuint shader)
 {

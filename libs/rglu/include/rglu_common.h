@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include <glad/glad.h>
 #include <cglm/cglm.h>

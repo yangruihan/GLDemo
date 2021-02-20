@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "rglu_texture.h"
 
 GLuint loadTexture(const char* texImagePath)
 {
