@@ -57,7 +57,7 @@ static void init(Torus* t)
         glm_mat4_mulv(rMat, (vec4){0.0f, -1.0f, 0.0f, 1.0f}, v4);
         glm_vec3(v4, v3);
         array_set(&t->tTangents, i, &v3);
-        v31[0] = 0.0f; v31[1] = 0.0f; v32[2] = -1.0f;
+        v31[0] = 0.0f; v31[1] = 0.0f; v31[2] = -1.0f;
         array_set(&t->sTangents, i, &v31);
         glm_cross(v3, v31, v32);
         array_set(&t->base.normals, i, &v32);

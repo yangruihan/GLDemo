@@ -12,6 +12,7 @@ extern "C"
 #include "./rglu_texture.h"
 #include "./rglu_math.h"
 #include "./rglu_model.h"
+#include "./rglu_material.h"
 
 #ifdef __cplusplus
 }
