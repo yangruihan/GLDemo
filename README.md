@@ -15,6 +15,7 @@
 - [构建一个球体](./projects/p6_1_1)
 - [构建一个环面](./projects/p6_2_1)
 - [加载外部构建的模型](./projects/p6_3_1)
+- [实现 ADS 光照，Gouraud 着色](./projects/p7_5_1)
 
 ## 项目模板
 
