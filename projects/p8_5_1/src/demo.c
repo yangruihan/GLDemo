@@ -6,7 +6,7 @@
 #include "fconfig.h"
 #include "framework.h"
 
-#define numVAOs 2
+#define numVAOs 1
 #define numVBOs 8
 
 float cameraX, cameraY, cameraZ;
@@ -23,6 +23,9 @@ GLuint mvLoc, projLoc, nLoc;
 GLuint globalAmbLoc, ambLoc, diffLoc, specLoc, posLoc, mAmbLoc, mDiffLoc, mSpecLoc, mShiLoc;
 
 mat4 pMat, vMat, mMat, mvMat, invTrMat;
+
+vec3 origin = (vec3){0.0f, 0.0f, 0.0f};
+vec3 up     = (vec3){0.0f, 1.0f, 0.0f};
 
 vec3 currentLightPos, lightPosV; // 模型和视图空间中光照位置
 float lightPos[3]; // 光照位置数组
@@ -133,6 +136,8 @@ static void setupVertices()
     glBindVertexArray(vao[0]);
     glGenBuffers(numVBOs, vbo);
 
+    // 环面顶点数据
+
     // 顶点位置
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * t.base.vertices.count, t.base.vertices.data, GL_STATIC_DRAW);
@@ -149,9 +154,11 @@ static void setupVertices()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * t.base.indices.count, t.base.indices.data, GL_STATIC_DRAW);
 
-    idxCount = t.base.indices.count;
+    idxCount1 = t.base.indices.count;
 
     torus_free(tp);
+
+    // 模型顶点数据
 
     Model* mp = &m;
     model_init(mp);
@@ -164,6 +171,26 @@ static void setupVertices()
     }
 
     FREE(char, modelPath);
+
+    // 顶点位置
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[4]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m.vertices.count, m.vertices.data, GL_STATIC_DRAW);
+
+    // 纹理坐标
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[5]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec2) * m.texCoords.count, m.texCoords.data, GL_STATIC_DRAW);
+
+    // 法向量
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[6]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m.normals.count, m.normals.data, GL_STATIC_DRAW);
+
+    // 索引
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[7]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * m.indices.count, m.indices.data, GL_STATIC_DRAW);
+
+    idxCount2 = m.indices.count;
+
+    model_free(mp);
 }
 
 /**
@@ -263,6 +290,57 @@ static void installLights(mat4 vMat)
     glProgramUniform1f(renderingProgram,  mShiLoc,         goldMatShi);
 }
 
+static void passOne()
+{
+    glUseProgram(renderingProgram2);
+    CHECK_OPENGL_ERROR();
+
+    // 通过从光源角度渲染环面获得深度缓冲区
+    glm_translate(mMat, (vec3){tLocX, tLocY, tLocZ});
+    // 轻微旋转以便查看
+    glm_rotate(mMat, deg2Rad(25.0f), V3_RIGHT);
+
+    // 从光源角度绘制，使用光源P、V矩阵
+    glm_mul(mMat, lightVMatrix, shadowMVP1);
+    glm_mul(shadowMVP1, lightPMatrix, shadowMVP1);
+    int loc = glGetUniformLocation(renderingProgram2, "shadowMVP");
+    glUniformMatrix4fv(loc, 1, GL_FALSE, (float*) shadowMVP1);
+
+    // 绘制环面
+
+    // 第一轮中，我们只需要顶点数据，而不需要纹理和法向量
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
+    glDrawElements(GL_TRIANGLES, idxCount1, GL_UNSIGNED_INT, 0);
+
+    CHECK_OPENGL_ERROR();
+
+    // 绘制模型
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[4]);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[7]);
+    glDrawElements(GL_TRIANGLES, idxCount2, GL_UNSIGNED_INT, 0);
+
+    CHECK_OPENGL_ERROR();
+}
+
+static void passTwo()
+{
+    glUseProgram(renderingProgram);
+}
+
 void display(GLFWwindow *window, double time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -270,82 +348,29 @@ void display(GLFWwindow *window, double time)
 
     CHECK_OPENGL_ERROR();
 
-    glUseProgram(renderingProgram);
+    // 从光源视角初始化视觉矩阵以及透视矩阵，以便在第一轮使用
+    glm_lookat(currentLightPos, origin, up, lightVMatrix); // 从光源到原点的矩阵
+    glm_perspective(deg2Rad(60.0f), aspect, 0.1f, 1000.0f, lightPMatrix);
+
+    // 使用自定义帧缓冲区，将阴影纹理附着到其上
+    glBindFramebuffer(GL_FRAMEBUFFER, shadowBuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadowTex, 0);
 
     CHECK_OPENGL_ERROR();
 
-    mvLoc = glGetUniformLocation(renderingProgram, "mv_matrix");
-    projLoc = glGetUniformLocation(renderingProgram, "proj_matrix");
-    nLoc = glGetUniformLocation(renderingProgram, "norm_matrix");
-
-    if (!mvLoc)
-        RLOG_ERROR("mv_matrix uniform not found!");
-
-    if (!projLoc)
-        RLOG_ERROR("proj_matrix uniform not found!");
-
-    if (!nLoc)
-        RLOG_ERROR("norm_matrix uniform not found!");
-
-    CHECK_OPENGL_ERROR();
-
-    // 构建透视矩阵
-    aspect = (float) WIDTH / (float) HEIGHT;
-    glm_perspective(1.0472f, aspect, 0.1f, 1000.0f, pMat); // 1.0472 radians = 60 degrees
-
-    glm_mat4_identity(vMat);
-    glm_translate(vMat, (vec3){-cameraX, -cameraY, -cameraZ});
-
-    // -------------------------------
-    // 渲染对象
-    // -------------------------------
-
-    // 构建视图矩阵、模型矩阵和视图-模型矩阵
-    glm_mat4_identity(mMat);
-    glm_translate(mMat, (vec3){locX, locY, locZ});
-    glm_rotate(mMat, (float) time, (vec3){0.0f, 1.0f, 0.0f});
-    glm_rotate(mMat, (float) time, (vec3){0.0f, 0.0f, 1.0f});
-    glm_rotate(mMat, (float) time, (vec3){1.0f, 0.0f, 0.0f});
-    glm_mul(vMat, mMat, mvMat);
-
-    // 基于当前光源位置，初始化光照
-    glm_vec3_copy(initialLigthLoc, currentLightPos);
-    installLights(vMat);
-
-    glm_mat4_inv(mvMat, invTrMat);
-    glm_mat4_transpose(invTrMat);
-
-    // 设置变量
-    glUniformMatrix4fv(mvLoc,   1, GL_FALSE, (float*) mvMat);
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, (float*) pMat);
-    glUniformMatrix4fv(nLoc,    1, GL_FALSE, (float*) invTrMat);
-
-    CHECK_OPENGL_ERROR();
-
-    // 设置顶点属性
-    glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(2);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, whiteTex);
-
-    // 绘制
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW);
+    // 关闭绘制颜色，同时开启深度计算
+    glDrawBuffer(GL_NONE);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
-    glDrawElements(GL_TRIANGLES, idxCount, GL_UNSIGNED_INT, 0);
 
     CHECK_OPENGL_ERROR();
+
+    passOne();
+
+    // 使用显示缓冲区，并重新开启绘制
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE2D, shadowTex);
+    glDrawBuffer(GL_FRONT); // 重新开启绘制颜色
+
+    passTwo();
 }
