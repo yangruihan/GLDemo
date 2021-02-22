@@ -17,6 +17,7 @@
 - [加载外部构建的模型](./projects/p6_3_1)
 - [实现 ADS 光照，Gouraud 着色](./projects/p7_5_1)
 - [实现 ADS 光照，Phong 着色](./projects/p7_5_2)
+- [实现 ADS 光照，Blinn-Phong 着色](./projects/p7_5_3)
 
 ## 项目模板
 
