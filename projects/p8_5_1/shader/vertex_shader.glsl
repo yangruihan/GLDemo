@@ -9,6 +9,7 @@ out vec3 varingNormal;     // 视觉空间顶点法向量
 out vec3 varingLightDir;   // 指向光源的向量
 out vec3 varingVertPos;    // 视觉空间中的顶点位置
 out vec3 varingHalfVector; // 角平分向量
+out vec4 shadow_coord;
 
 struct PositionalLight
 {
@@ -33,6 +34,8 @@ uniform Material material;
 uniform mat4 proj_matrix;
 uniform mat4 mv_matrix;
 uniform mat4 norm_matrix;
+uniform mat4 shadowMVP2;
+uniform sampler2DShadow shTex;
 
 void main()
 {
@@ -44,6 +47,8 @@ void main()
     varingLightDir = (light.position - varingVertPos);
     varingNormal = (norm_matrix * vec4(vertNormal, 1.0)).xyz;
     varingHalfVector = (varingLightDir + (-varingVertPos)).xyz;
+
+    shadow_coord = shadowMVP2 * vec4(vertPos, 1.0);
 
     // 计算位置信息
     gl_Position = proj_matrix * mv_matrix * vec4(vertPos, 1.0);

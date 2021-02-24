@@ -6,7 +6,7 @@
 #include "fconfig.h"
 #include "framework.h"
 
-#define numVAOs 1
+#define numVAOs 2
 #define numVBOs 8
 
 float cameraX, cameraY, cameraZ;
@@ -173,6 +173,8 @@ static void setupVertices()
 
     FREE(char, modelPath);
 
+    glBindVertexArray(vao[1]);
+
     // 顶点位置
     glBindBuffer(GL_ARRAY_BUFFER, vbo[4]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m.vertices.count, m.vertices.data, GL_STATIC_DRAW);
@@ -309,6 +311,8 @@ static void passOne()
 
     // 绘制环面
 
+    glBindVertexArray(vao[0]);
+
     // 第一轮中，我们只需要顶点数据，而不需要纹理和法向量
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -326,6 +330,8 @@ static void passOne()
     CHECK_OPENGL_ERROR();
 
     // 绘制模型
+
+    glBindVertexArray(vao[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo[4]);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -379,6 +385,8 @@ static void passTwo()
     glUniformMatrix4fv(nLoc,    1, GL_FALSE, (float*)invTrMat);
     glUniformMatrix4fv(sLoc,    1, GL_FALSE, (float*)shadowMVP2);
 
+    glBindVertexArray(vao[0]);
+
     // 初始化环面顶点数据
     // 设置顶点属性
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
@@ -403,10 +411,12 @@ static void passTwo()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
+    CHECK_OPENGL_ERROR();
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
     glDrawElements(GL_TRIANGLES, idxCount1, GL_UNSIGNED_INT, 0);
-
     CHECK_OPENGL_ERROR();
+
 
     // ----------
     // 绘制模型
@@ -432,6 +442,8 @@ static void passTwo()
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, (float*)pMat);
     glUniformMatrix4fv(nLoc,    1, GL_FALSE, (float*)invTrMat);
     glUniformMatrix4fv(sLoc,    1, GL_FALSE, (float*)shadowMVP2);
+
+    glBindVertexArray(vao[1]);
 
     // 初始化环面顶点数据
     // 设置顶点属性
