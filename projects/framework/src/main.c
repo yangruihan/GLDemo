@@ -12,6 +12,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
     GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, DEMO_TITLE, NULL, NULL);
 
@@ -30,6 +31,14 @@ int main()
         glfwTerminate();
         return -1;
     }
+
+    GLint flags;
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+        RLOG_INFO("current platform support gl debug");
+    else
+        RLOG_INFO("current platform not support gl debug");
 
     glfwSwapInterval(1);
 

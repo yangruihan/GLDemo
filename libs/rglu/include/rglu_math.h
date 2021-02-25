@@ -10,6 +10,13 @@ extern "C"
 {
 #endif
 
+#define V3_UP      (vec3){ 0.0f,  1.0f,  0.0f}
+#define V3_RIGHT   (vec3){ 1.0f,  0.0f,  0.0f}
+#define V3_FORWARD (vec3){ 0.0f,  0.0f,  1.0f}
+#define V3_DOWN    (vec3){ 0.0f, -1.0f,  0.0f}
+#define V3_LEFT    (vec3){-1.0f,  0.0f,  0.0f}
+#define V3_BACK    (vec3){ 0.0f,  0.0f, -1.0f}
+
 const float deg2Rad(const float deg);
 const float rad2Deg(const float rad);
 
