@@ -352,7 +352,7 @@ static void passTwo()
     mvLoc   = glGetUniformLocation(renderingProgram, "mv_matrix");
     projLoc = glGetUniformLocation(renderingProgram, "proj_matrix");
     nLoc    = glGetUniformLocation(renderingProgram, "norm_matrix");
-    sLoc    = glGetUniformLocation(renderingProgram, "shadowMVP");
+    sLoc    = glGetUniformLocation(renderingProgram, "shadowMVP2");
 
     glm_mat4_identity(vMat);
     glm_translate(vMat, (vec3){-cameraX, -cameraY, -cameraZ});
@@ -484,7 +484,10 @@ void display(GLFWwindow *window, double time)
 
     // 从光源视角初始化视觉矩阵以及透视矩阵，以便在第一轮使用
     glm_lookat(currentLightPos, origin, up, lightVMatrix); // 从光源到原点的矩阵
+    // 构建透视矩阵
+    aspect = (float) WIDTH / (float) HEIGHT;
     glm_perspective(deg2Rad(60.0f), aspect, 0.1f, 1000.0f, lightPMatrix);
+    glm_perspective(deg2Rad(60.0f), aspect, 0.1f, 1000.0f, pMat);
 
     // 使用自定义帧缓冲区，将阴影纹理附着到其上
     glBindFramebuffer(GL_FRAMEBUFFER, shadowBuffer);
@@ -502,7 +505,7 @@ void display(GLFWwindow *window, double time)
 
     // 使用显示缓冲区，并重新开启绘制
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, shadowTex);
     glDrawBuffer(GL_FRONT); // 重新开启绘制颜色
 

@@ -35,7 +35,6 @@ uniform mat4 proj_matrix;
 uniform mat4 mv_matrix;
 uniform mat4 norm_matrix;
 uniform mat4 shadowMVP2;
-uniform sampler2DShadow shTex;
 
 void main()
 {
